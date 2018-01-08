@@ -3,17 +3,19 @@ package csvGenerator.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import csvGenerator.Utils;
+
 public class Product {
-	String name;
-	String brand;
-	String refCode;
-	long ean;
-	String description;
-	List<String> category	=	new ArrayList<String>();
-	List<String> photoUrl	=	new ArrayList<String>();
-	List<Attribute> attributeList =	new ArrayList<Attribute>();
-	String structSchema;
-	int stock;
+	public String name;
+	public String brand;
+	public String refCode;
+	public long ean;
+	public String description;
+	public List<String> category	=	new ArrayList<String>();
+	public List<String> photoUrl	=	new ArrayList<String>();
+	public List<Attribute> attributeList =	new ArrayList<Attribute>();
+	public String structSchema;
+	public int stock;
 
 	public String getJson(){
 		return Utils.gson.toJson(this);

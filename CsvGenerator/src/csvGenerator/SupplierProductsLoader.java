@@ -1,9 +1,11 @@
-package csvGenerator.model;
+package csvGenerator;
 
 import java.util.HashMap;
 import java.util.List;
 
 import com.google.gson.Gson;
+
+import csvGenerator.model.Product;
 
 public abstract class SupplierProductsLoader {
 	public String separator;

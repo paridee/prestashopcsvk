@@ -1,4 +1,4 @@
-package csvGenerator.model;
+package csvGenerator;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,6 +11,8 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
+import csvGenerator.model.Product;
+
 public class LindiLoader extends SupplierProductsLoader {
 	
 	public LindiLoader(){
@@ -22,6 +24,8 @@ public class LindiLoader extends SupplierProductsLoader {
 		itemMap.put("description", 3);
 		itemMap.put("stock", 22);
 		this.categoryMap	=	new HashMap<String, String>();
+		this.categoryMap.put("Cables & Adapters", "Cavi e adattatori");
+		this.categoryMap.put("Audio & Video", "Audio e video");
 	}
 
 	
@@ -35,6 +39,12 @@ public class LindiLoader extends SupplierProductsLoader {
 		System.out.println("CATEGORY STRING "+category);
 		String[] categorySplit	=	category.split("\\\\");
 		for(String cat:categorySplit){
+			if(this.categoryMap.containsKey(cat)){
+				cat	=	this.categoryMap.get(cat);
+			}
+			else{
+				cat="Varie";
+			}
 			System.out.println("CATEGORY "+cat);
 			p.category.add(cat);
 		}
@@ -58,7 +68,7 @@ public class LindiLoader extends SupplierProductsLoader {
             String inputLine;
             
             inputLine = in.readLine();
-            System.out.println("HEADER: "+inputLine);
+            //System.out.println("HEADER: "+inputLine);
             String[] header	=	inputLine.split("\t");
 
             while ((inputLine = in.readLine()) != null){
@@ -67,7 +77,7 @@ public class LindiLoader extends SupplierProductsLoader {
             	int i=0;
             	for(String s:splitted){
             		if(i<header.length){
-            			System.out.println("ELEMENT"+i+" "+header[i]+": "+s);	
+            			//System.out.println("ELEMENT"+i+" "+header[i]+": "+s);	
             			i++;
             		}
             	}

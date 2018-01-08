@@ -1,4 +1,4 @@
-package csvGenerator.model;
+package csvGenerator;
 
 import com.google.gson.Gson;
 

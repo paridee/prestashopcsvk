@@ -14,8 +14,6 @@ import java.sql.Statement;
 
 import org.h2.tools.DeleteDbFiles;
 
-import csvGenerator.model.LindiLoader;
-
 public class TestMain {
 
     private static final String DB_DRIVER = "org.h2.Driver";
