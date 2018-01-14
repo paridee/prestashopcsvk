@@ -11,8 +11,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.h2.tools.DeleteDbFiles;
+
+import csvGenerator.model.Product;
 
 public class TestMain {
 
@@ -36,10 +40,20 @@ public class TestMain {
             e.printStackTrace();
         }
         
-        
-        LindiLoader load	=	new LindiLoader();
-        load.loadProducts();
-
+        SupplierProductsLoader load;
+        ArrayList<Product> pr	=	new ArrayList<Product> ();
+        load	=	new LindiLoader();
+        pr.addAll(load.loadProducts());
+        load	=	new GriffatiLoader();
+        pr.addAll(load.loadProducts());
+        load	=	new BigBuyLoader();
+        pr.addAll(load.loadProducts());
+        ProductRepository rep	=	new ProductRepository();
+        rep.addProducts(pr);
+        List<String> csv	=	rep.getCsvWithAllFields();
+        for(String s:csv){
+        	System.out.println(s);
+        }
 		
 	}
 	

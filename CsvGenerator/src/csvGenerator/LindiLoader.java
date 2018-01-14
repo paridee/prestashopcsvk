@@ -17,6 +17,7 @@ public class LindiLoader extends SupplierProductsLoader {
 	
 	public LindiLoader(){
 		super();
+		this.supplier	=	"003-LIN";
 		this.separator	=	"\t";
 		this.itemMap	=	new HashMap<String, Integer>();
 		itemMap.put("name", 1);
