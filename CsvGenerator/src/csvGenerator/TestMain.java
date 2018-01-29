@@ -1,10 +1,14 @@
 package csvGenerator;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -42,19 +46,74 @@ public class TestMain {
         
         SupplierProductsLoader load;
         ArrayList<Product> pr	=	new ArrayList<Product> ();
-        load	=	new LindiLoader();
+        //load	=	new LindiLoader();
+       // pr.addAll(load.loadProducts());
+        //load	=	new GriffatiLoader();
+        //pr.addAll(load.loadProducts());
+        //load	=	new BigBuyLoader();
+        //pr.addAll(load.loadProducts());
+        load	=	new GSLoader("/home/paride/Scaricati/SG_LISTINO_CSV.CSV");
         pr.addAll(load.loadProducts());
-        load	=	new GriffatiLoader();
-        pr.addAll(load.loadProducts());
-        load	=	new BigBuyLoader();
-        pr.addAll(load.loadProducts());
+        
         ProductRepository rep	=	new ProductRepository();
         rep.addProducts(pr);
-        List<String> csv	=	rep.getCsvWithAllFields();
+        List<String> csv	=	rep.getCsvWithAllFields('|');
+        int count	=	0;
         for(String s:csv){
+        	if(count<10){
+        		System.out.println("ROW "+s);	
+        	}
+        	count++;
+        }
+        System.out.println("unknown categories");
+        for(String s:Utils.unknownCategories){
         	System.out.println(s);
         }
-		
+        System.out.println("Categories:");
+        for(String s:rep.getCategores()){
+        	System.out.println(s);
+        }
+		System.out.println("Going to create string for file creation");
+		FileWriter 		fw	=	null;
+		BufferedWriter 	bw	=	null;
+		try {
+
+			fw 	= 	new FileWriter("output.csv");
+			bw 	= 	new BufferedWriter(fw);
+			int counter	=	0;
+			for(String s:csv){
+				if(counter%100==99){
+					System.out.println("Scritte "+counter+" rows");
+				}
+				//if(counter<500){
+					bw.write(s+"\n");	
+				//}	
+				counter++;
+			}
+
+			System.out.println("Done");
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		} finally {
+
+			try {
+
+				if (bw != null)
+					bw.close();
+
+				if (fw != null)
+					fw.close();
+
+			} catch (IOException ex) {
+
+				ex.printStackTrace();
+
+			}
+
+		}
 	}
 	
     // H2 SQL Prepared Statement Example

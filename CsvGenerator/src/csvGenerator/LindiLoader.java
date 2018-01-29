@@ -17,16 +17,13 @@ public class LindiLoader extends SupplierProductsLoader {
 	
 	public LindiLoader(){
 		super();
-		this.supplier	=	"003-LIN";
+		this.supplier	=	1002;
 		this.separator	=	"\t";
 		this.itemMap	=	new HashMap<String, Integer>();
 		itemMap.put("name", 1);
 		itemMap.put("ean", 12);
 		itemMap.put("description", 3);
 		itemMap.put("stock", 22);
-		this.categoryMap	=	new HashMap<String, String>();
-		this.categoryMap.put("Cables & Adapters", "Cavi e adattatori");
-		this.categoryMap.put("Audio & Video", "Audio e video");
 	}
 
 	
@@ -37,17 +34,11 @@ public class LindiLoader extends SupplierProductsLoader {
 		p.name				=	p.name.substring(1, p.name.length()-1);
 		p.description		=	p.description.substring(1, p.description.length()-1);
 		String category		=	s.split(this.separator)[7].replace("\"", "");
-		System.out.println("CATEGORY STRING "+category);
-		String[] categorySplit	=	category.split("\\\\");
-		for(String cat:categorySplit){
-			if(this.categoryMap.containsKey(cat)){
-				cat	=	this.categoryMap.get(cat);
-			}
-			else{
-				cat="Varie";
-			}
-			System.out.println("CATEGORY "+cat);
-			p.category.add(cat);
+		if(this.categoryMap.containsKey(category)){
+			p.category	=	this.categoryMap.get(category);
+		}
+		else{
+			p.category	=	Utils.defaultCategory;
 		}
 		return p;
 	}
@@ -90,7 +81,7 @@ public class LindiLoader extends SupplierProductsLoader {
                 		//System.out.println(p.getStructSchema());
                 		
                 		if(printcount==0){
-                			System.out.println(p.getCsvHeader("|"));
+                			System.out.println(p.getCsvHeader("|",3,3));
                 			printcount++;
                 		}
                 		

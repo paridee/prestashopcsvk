@@ -10,22 +10,68 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import csvGenerator.model.Attribute;
 import csvGenerator.model.Product;
 
 public class GriffatiLoader extends SupplierProductsLoader implements ProductWithModelsLoader {
 
-	public GriffatiLoader(){
+	private char delimiter;
+	
+	public class GriffatiCategoryParser implements CategoryParser{
+
+		
+		HashMap<String,String> dict	=	new HashMap<String,String>();
+		public GriffatiCategoryParser(){
+			dict.put("Gioiellibigiotteria", "Gioielli e Bigiotteria");
+			dict.put("Occhialidasole", "Occhiali da sole");
+			dict.put("Accessori-mix", "Accessori e Altro");
+		}
+		@Override
+		public String getCategoryString(String[] splitted) {
+			return	splitted[13]+"/"+splitted[14];
+		}
+
+		@Override
+		public String[] createCategory(String category) {
+			String[] cats	=	category.split("/");
+			ArrayList<String> catsString	=	new ArrayList<String>();
+			catsString.add("Abbigliamento");
+			for(String s:cats){
+				String nString	=	s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
+				if(this.dict.containsKey(nString)){
+					nString	=	this.dict.get(nString);
+				}
+				catsString.add(nString);
+			}
+			String [] retString	=	new String[catsString.size()];
+			for(int i=0;i<catsString.size();i++){
+				retString[i]	=	catsString.get(i);
+			}
+			return retString;
+		}
+		
+	}
+	
+	public GriffatiLoader(){		
 		super();
-		this.supplier	=	"002-GR";
+		this.margin		=	0.3;
+		this.vat		=	0.22;
+		this.supplier	=	1001;
 		this.separator	=	",";
+		this.delimiter	=	'\"';
 		this.itemMap	=	new HashMap<String, Integer>();
 		itemMap.put("name", 3);
 		itemMap.put("ean", 16);
+		itemMap.put("refCode", 1);
 		itemMap.put("description", 8);
 		itemMap.put("stock", 18);
-		this.categoryMap	=	new HashMap<String, String>();
-		this.categoryMap.put("Cables & Adapters", "Cavi e adattatori");
-		this.categoryMap.put("Audio & Video", "Audio e video");
+		itemMap.put("price", 7);
+		itemMap.put("brand", 2);
+		this.images.add(10);
+		this.images.add(11);
+		this.images.add(12);
+		this.parse	=	new GriffatiCategoryParser();
+
 	}
 	
 	@Override
@@ -71,7 +117,7 @@ public class GriffatiLoader extends SupplierProductsLoader implements ProductWit
                     		//System.out.println(p.getStructSchema());
                     		
                     		if(printcount==0){
-                    			System.out.println(p.getCsvHeader("|"));
+                    			System.out.println(p.getCsvHeader("|",3,3));
                     			printcount++;
                     		}
                     		
@@ -89,6 +135,7 @@ public class GriffatiLoader extends SupplierProductsLoader implements ProductWit
             	}
             	catch(Exception e){
             		e.printStackTrace();
+            		throw e;
             	}
             }
                 
@@ -104,6 +151,19 @@ public class GriffatiLoader extends SupplierProductsLoader implements ProductWit
 		return returnList;
 	}
 
+	@Override
+	public Product loadProduct(String s) {
+		Product p	=	super.loadProduct(s);
+		Attribute size	=	new Attribute();
+		size.name		=	"color";
+		String[] splitted	=	Utils.splitWithMerge(",", '"', s);
+		if(splitted.length>19){
+			size.value		=	splitted[19];
+			p.attributeList.add(size);	
+		}
+		return p;
+	}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
@@ -114,10 +174,15 @@ public class GriffatiLoader extends SupplierProductsLoader implements ProductWit
 		
 		System.out.println("Loading model from line "+line);
 		Product retProd	=	(Product) p.clone();
-		String[] attr	=	line.split(separator);
+		String[] attr	=	Utils.splitWithMerge(this.separator, delimiter, line);
 		String eanStr	=	attr[itemMap.get("ean")];
 		if(!eanStr.equals("")){
-			retProd.ean		=	Long.parseLong(eanStr);
+			try{
+				retProd.ean		=	Long.parseLong(eanStr);	
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
 		}
 		String stockStr	=	attr[itemMap.get("stock")];
 		if(!stockStr.equals("")){
@@ -126,6 +191,11 @@ public class GriffatiLoader extends SupplierProductsLoader implements ProductWit
 		else{
 			retProd.stock	=	0;
 		}
+		Attribute size	=	new Attribute();
+		size.name		=	"Taglia";
+		size.value		=	attr[17];
+		retProd.attributeList.add(size);
+		p.inventoryTag	=	size.value.toUpperCase();
 		return retProd;
 	}
 

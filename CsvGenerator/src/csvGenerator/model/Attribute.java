@@ -1,8 +1,8 @@
 package csvGenerator.model;
 
 public class Attribute implements Cloneable {
-	String name;
-	String value;
+	public String name;
+	public String value;
 	
 	public Object clone(){
 		Attribute a	=	new Attribute();

@@ -6,18 +6,19 @@ import java.util.List;
 import csvGenerator.Utils;
 
 public class Product {
-	public String name;
-	public String brand;
-	public String refCode;
+	public String name	=	"";
+	public String brand	=	"";
+	public String refCode	=	"";
 	public long ean;
-	public String description;
-	public List<String> category	=	new ArrayList<String>();
+	public String description	=	"";
+	public String[] category	=	new String[0];
 	public List<String> photoUrl	=	new ArrayList<String>();
 	public List<Attribute> attributeList =	new ArrayList<Attribute>();
 	public String structSchema;
 	public int stock;
 	public double price;
 	public String supplier;
+	public String inventoryTag;
 	public String getJson(){
 		return Utils.gson.toJson(this);
 	}
@@ -49,39 +50,48 @@ public class Product {
 		return retString;
 	}
 	
-	public String getCsv(String separator, List<String> attributes){
+	public String getCsv(String separator, List<String> attributes,int photos,int catDepth){
 		String retString	=	this.name+separator+this.brand+separator+this.refCode+separator+this.ean+separator+this.description;
-		for(String s:this.category){
-			retString	=	retString+separator+s;
+
+		for(int i=0;i<catDepth;i++){
+			if(i>=this.category.length){
+				retString	=	retString+separator+"";
+			}
+			else{
+				retString	=	retString+separator+this.category[i];	
+			}
 		}
-		for(String s:this.photoUrl){
-			retString	=	retString+separator+s;
+		
+		for(int i=0;i<photos;i++){
+			if(i>=this.photoUrl.size()){
+				retString	=	retString+separator+"";
+			}
+			else{
+				retString	=	retString+separator+this.photoUrl.get(i);	
+			}
 		}
 		for(String a:attributes){
 			String value	=	"";
 			List<String> myAttrs	=	this.getAttributes();
 			if(myAttrs.contains(a)){
-				value	=	this.attributeList.get(myAttrs.indexOf(a)).toString();
+				value	=	this.attributeList.get(myAttrs.indexOf(a)).value.toString();
 			}
 			retString	=	retString	+separator+	value;
 		}
-		retString	=	retString+separator+this.stock+separator+this.price+retString+separator+this.supplier;
+		retString	=	retString+separator+this.stock+separator+this.price+separator+this.supplier;
 		return retString;
 	}
 	
-	public String getCsvHeader(String separator){
+	public String getCsvHeader(String separator, List<String> attributes,int photos, int catDepth){
 		String header	=	"name"+separator+"brand"+separator+"refcode"+separator+"ean"+separator+"description";
-		int i=0;
-		for(String s:this.category){
-			++i;
-			header	=	header+separator+"category"+i;
+		for(int j=0;j<catDepth;j++){
+			header	=	header+separator+"category"+j;
 		}
-		for(String s:this.photoUrl){
-			++i;
-			header	=	header+separator+"foto"+i;
+		for(int j=0;j<photos;j++){
+			header	=	header+separator+"foto"+j;
 		}
-		for(Attribute a:this.attributeList){
-			header	=	header	+separator+	a.name;
+		for(String a:attributes){
+			header	=	header	+separator+	a;
 		}
 		header	=	header+separator+"stock";
 		header	=	header+separator+"price";
@@ -96,8 +106,11 @@ public class Product {
 		cloned.refCode		=	this.refCode;
 		cloned.ean			=	this.ean;
 		cloned.description	=	this.description;
-		for(String s:this.category){
-			cloned.category.add(s);
+		if(this.category!=null){
+			cloned.category		=	new String[this.category.length];	
+			for(int i=0;i<category.length;i++){
+				cloned.category[i]	=	this.category[i];
+			}
 		}
 		for(String s:this.photoUrl){
 			cloned.photoUrl.add(s);
@@ -118,5 +131,9 @@ public class Product {
 			attributes.add(att.name);
 		}
 		return attributes;
+	}
+
+	public String getCsvHeader(String string,int photos, int catDepth) {
+		return this.getCsvHeader(string, new ArrayList<String>(),photos, catDepth);
 	}
 }
