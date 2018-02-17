@@ -46,7 +46,7 @@ public class ProductRepository {
 		return attributes;
 	}
 	
-	public List<String> getCsvWithAllFields(char separator){
+	public List<String> getCsvWithAllFields(char separator,double priceTh){
 		ArrayList<String> csv			=	new ArrayList<String>();
 		List<String> attributes	=	this.attributesList();
 		Iterator<String> it	=	this.repository.keySet().iterator();
@@ -68,7 +68,9 @@ public class ProductRepository {
 				csv.add(p.getCsvHeader(separator+"", attributes,3,3));
 				printHeader=false;
 			}
-			csv.add(p.getCsv(separator+"", attributes,3,3));
+			if(p.price>=priceTh){
+				csv.add(p.getCsv(separator+"", attributes,3,3));	
+			}
 		}
 		return csv;
 	}

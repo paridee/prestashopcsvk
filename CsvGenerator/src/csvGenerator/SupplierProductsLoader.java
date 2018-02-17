@@ -29,8 +29,8 @@ public abstract class SupplierProductsLoader {
 		//p.brand				=	splitted[itemMap.get("brand")];
 		//p.refCode			=	splitted[itemMap.get("refCode")];
 		
-		if(itemMap.containsKey("category")){
-			if(splitted.length>itemMap.get("category")-1){
+		if(itemMap.containsKey("brand")){
+			if(splitted.length>itemMap.get("brand")-1){
 				p.brand				=	splitted[itemMap.get("brand")];
 				if(p.brand.length()>1){
 					String[] brandItems	=	p.brand.split(" ");

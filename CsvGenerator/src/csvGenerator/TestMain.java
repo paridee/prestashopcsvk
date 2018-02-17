@@ -48,16 +48,16 @@ public class TestMain {
         ArrayList<Product> pr	=	new ArrayList<Product> ();
         //load	=	new LindiLoader();
        // pr.addAll(load.loadProducts());
-        //load	=	new GriffatiLoader();
-        //pr.addAll(load.loadProducts());
-        //load	=	new BigBuyLoader();
-        //pr.addAll(load.loadProducts());
+        load	=	new GriffatiLoader();
+        pr.addAll(load.loadProducts());
+        load	=	new BigBuyLoader();
+        pr.addAll(load.loadProducts());
         load	=	new GSLoader("/home/paride/Scaricati/SG_LISTINO_CSV.CSV");
         pr.addAll(load.loadProducts());
         
         ProductRepository rep	=	new ProductRepository();
         rep.addProducts(pr);
-        List<String> csv	=	rep.getCsvWithAllFields('|');
+        List<String> csv	=	rep.getCsvWithAllFields('|',1);
         int count	=	0;
         for(String s:csv){
         	if(count<10){

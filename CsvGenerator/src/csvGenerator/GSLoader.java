@@ -29,6 +29,7 @@ public class GSLoader extends SupplierProductsLoader {
 		itemMap.put("brand", 2);
 		this.images.add(7);
 		this.filename	=	fileName;
+		this.margin	=	0.15;
 		
 		
 		this.categoryMap.put("TELEFONIA FISSA/CORDED","Telefonia#Telefonia Fissa#Telefoni con cavo".split("#"));
