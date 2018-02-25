@@ -22,7 +22,8 @@ public abstract class SupplierProductsLoader {
 	
 	public Product loadProduct(String s){
 		String[] splitted	=	Utils.splitWithMerge(separator, '\"', s);//s.split(separator);
-		System.out.println("Splitted size "+splitted.length);
+		//System.out.println("Splitted size "+splitted.length);
+		//System.out.println(s);
 		Product p 			=	new Product();
 		p.supplier			=	this.supplier+"";
 		p.name				=	splitted[itemMap.get("name")].trim();

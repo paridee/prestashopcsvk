@@ -122,6 +122,7 @@ public class Product {
 		cloned.stock		=	this.stock;
 		cloned.price		=	this.price;
 		cloned.supplier		=	this.supplier;
+		cloned.inventoryTag	=	this.inventoryTag;
 		return cloned;
 	}
 	
@@ -135,5 +136,15 @@ public class Product {
 
 	public String getCsvHeader(String string,int photos, int catDepth) {
 		return this.getCsvHeader(string, new ArrayList<String>(),photos, catDepth);
+	}
+	
+	public String getAttributeValue(String key){
+		String returnValue=null;
+		for(Attribute a:attributeList){
+			if(a.name.equals(key)){
+				return a.value;
+			}
+		}
+		return returnValue;
 	}
 }

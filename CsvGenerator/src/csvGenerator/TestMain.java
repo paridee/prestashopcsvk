@@ -16,6 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.h2.tools.DeleteDbFiles;
@@ -32,7 +33,17 @@ public class TestMain {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		//H2 test
-
+		
+		String gs	=	"/home/paride/Scaricati/SG_LISTINO_CSV.CSV";
+		String ledlux	=	"/home/paride/a2zworldsrl_sellrapido_list1.csv";
+		String byz	=	"/home/paride/byzancia.csv";
+		
+		if(args.length>2){
+        	gs		=	args[0];
+        	ledlux	=	args[1];
+        	byz		=	args[2];
+        }
+        
         try {
             // delete the H2 database named 'test' in the user home directory
             DeleteDbFiles.execute("~", "test", true);
@@ -46,19 +57,27 @@ public class TestMain {
         
         SupplierProductsLoader load;
         ArrayList<Product> pr	=	new ArrayList<Product> ();
-        //load	=	new LindiLoader();
+       // load	=	new LindiLoader();
        // pr.addAll(load.loadProducts());
         load	=	new GriffatiLoader();
         pr.addAll(load.loadProducts());
         load	=	new BigBuyLoader();
         pr.addAll(load.loadProducts());
-        load	=	new GSLoader("/home/paride/Scaricati/SG_LISTINO_CSV.CSV");
+        load	=	new GSLoader(gs);
         pr.addAll(load.loadProducts());
-        
+        load	=	new Dropshipping4youLoader();
+        pr.addAll(load.loadProducts());
+        load	=	new LedLuxLoader(ledlux);
+        pr.addAll(load.loadProducts());
+        load	=	new ByzanciaLoader(byz);
+        pr.addAll(load.loadProducts());
         ProductRepository rep	=	new ProductRepository();
         rep.addProducts(pr);
         List<String> csv	=	rep.getCsvWithAllFields('|',1);
         int count	=	0;
+        
+        String mailMessage	=	"Report del giorno "+(new Date()).toString()+"\nCategorie sconosciute:\n";
+        
         for(String s:csv){
         	if(count<10){
         		System.out.println("ROW "+s);	
@@ -68,6 +87,7 @@ public class TestMain {
         System.out.println("unknown categories");
         for(String s:Utils.unknownCategories){
         	System.out.println(s);
+        	mailMessage=mailMessage+s+"\n";
         }
         System.out.println("Categories:");
         for(String s:rep.getCategores()){
@@ -90,9 +110,10 @@ public class TestMain {
 				//}	
 				counter++;
 			}
-
+			mailMessage	=	mailMessage+"\nProcessati "+counter+" prodotti";
 			System.out.println("Done");
-
+			MailSender sender	=	new MailSender();
+			sender.sendEmail("paride.casulli@gmail.com,simass81@gmail.com,alep981@gmail.com", "[Print Solutions Roma] Report Generazione Csv", mailMessage);
 		} catch (IOException e) {
 
 			e.printStackTrace();

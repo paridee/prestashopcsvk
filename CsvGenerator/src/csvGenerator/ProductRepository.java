@@ -14,8 +14,9 @@ public class ProductRepository {
 			repository.put(p.ean+"#"+p.inventoryTag, p);
 		}
 		else{
-			System.out.println("EAN CONFICT, check price...");
+			System.out.println("PRODUCT CONFICT, check price..."+p.ean+"#"+p.inventoryTag);
 			System.out.println(p.name+" EAN "+p.ean+" "+repository.get(p.ean+"#"+p.inventoryTag).name);
+			System.out.print("------------------------------------------\n"+p.getCsv(";")+"\n"+repository.get(p.ean+"#"+p.inventoryTag).getCsv(";")+"\n------------------------------------------\n");
 			if(p.price<repository.get(p.ean+"#"+p.inventoryTag).price){
 				repository.put(p.ean+"#"+p.inventoryTag, p);
 			}
@@ -69,7 +70,7 @@ public class ProductRepository {
 				printHeader=false;
 			}
 			if(p.price>=priceTh){
-				csv.add(p.getCsv(separator+"", attributes,3,3));	
+				csv.add(p.getCsv(separator+"",attributes,3,3));	
 			}
 		}
 		return csv;

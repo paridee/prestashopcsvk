@@ -77,7 +77,6 @@ public class GriffatiLoader extends SupplierProductsLoader implements ProductWit
 	@Override
 	public List<Product> loadProducts() {
 		List <Product> returnList	=	new ArrayList<Product>();
-        URL oracle;
         
         int printcount=0;
         

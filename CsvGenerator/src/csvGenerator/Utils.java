@@ -2,6 +2,7 @@ package csvGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import com.google.gson.Gson;
 
@@ -62,4 +63,5 @@ public class Utils {
 		}
 		return counter;
 	}
+	
 }
