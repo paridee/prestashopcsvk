@@ -9,10 +9,29 @@ import com.google.gson.Gson;
 public class Utils {
 	public static Gson gson	=	new Gson();
 	public static String[] defaultCategory	=	new String[1];
-	public static ArrayList<String> unknownCategories	=	new ArrayList<String>();
+	private static ArrayList<String> unknownCategories			=	new ArrayList<String>();
+	private static ArrayList<String> unknownCategoriesLoader	=	new ArrayList<String>();
 	
 	static{
 		defaultCategory[0]	=	"Varie";
+	}
+	
+	public static void addCategory(String category, Class loader){
+		unknownCategories.add(category);
+		unknownCategoriesLoader.add(loader.getName());
+	}
+	
+	
+	public static boolean isKnownCategory(String category){
+		return unknownCategories.contains(category);
+	}
+	
+	public static List<String> getUnkn(){
+		ArrayList<String> list	=	new ArrayList<String>();
+		for(String s:unknownCategories){
+			list.add(s);
+		}
+		return list;
 	}
 	
 	public static String[] splitWithMerge(String separator,char itemDelimiter,String input){

@@ -36,8 +36,8 @@ public class Dropshipping4youLoader extends SupplierProductsLoader{
 		p.category			=	cat.split("#");
 		if(!this.categoryMap.containsKey(cat)){
 			p.category	=	Utils.defaultCategory;
-			if(!Utils.unknownCategories.contains(cat)){
-				Utils.unknownCategories.add(cat);
+			if(!Utils.isKnownCategory(cat)){
+				Utils.addCategory((cat),this.getClass());
 			}
 		}
 		return p;

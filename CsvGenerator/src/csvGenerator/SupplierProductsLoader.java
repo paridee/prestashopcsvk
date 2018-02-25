@@ -57,8 +57,8 @@ public abstract class SupplierProductsLoader {
 				}
 				else{
 					p.category	=	Utils.defaultCategory;
-					if(!Utils.unknownCategories.contains(category)){
-						Utils.unknownCategories.add(category);		
+					if(!Utils.isKnownCategory(category)){
+						Utils.addCategory(category,this.getClass());		
 					}
 				}
 			}

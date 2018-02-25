@@ -85,7 +85,7 @@ public class TestMain {
         	count++;
         }
         System.out.println("unknown categories");
-        for(String s:Utils.unknownCategories){
+        for(String s:Utils.getUnkn()){
         	System.out.println(s);
         	mailMessage=mailMessage+s+"\n";
         }
