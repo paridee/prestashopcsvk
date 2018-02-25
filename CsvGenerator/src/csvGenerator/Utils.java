@@ -28,8 +28,10 @@ public class Utils {
 	
 	public static List<String> getUnkn(){
 		ArrayList<String> list	=	new ArrayList<String>();
+		int i=0;
 		for(String s:unknownCategories){
-			list.add(s);
+			list.add(unknownCategoriesLoader.get(i)+" -> "+s);
+			i++;
 		}
 		return list;
 	}
