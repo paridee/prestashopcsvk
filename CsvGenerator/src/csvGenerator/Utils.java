@@ -1,6 +1,10 @@
 package csvGenerator;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
@@ -24,6 +28,27 @@ public class Utils {
 	
 	public static boolean isKnownCategory(String category){
 		return unknownCategories.contains(category);
+	}
+	
+	public static HashMap<String,String[]> loadCategoriesFromFile(String file){
+		HashMap<String,String[]>  categoryMap	=	new HashMap<String, String[]>();
+		System.out.println("Reading file "+file);
+		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+			String sCurrentLine;
+			while ((sCurrentLine = br.readLine()) != null) {
+				System.out.println(sCurrentLine);
+				String[] splitted	=	sCurrentLine.split("@@@");
+				System.out.print("Loaded category map item key "+splitted[0]+" value ");
+				for(String s:splitted[1].split("#")){
+					System.out.print(" -> "+s);
+				}
+				System.out.println("");
+				categoryMap.put(splitted[0], splitted[1].split("#"));		
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return categoryMap;
 	}
 	
 	public static List<String> getUnkn(){

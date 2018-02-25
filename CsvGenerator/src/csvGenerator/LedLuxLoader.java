@@ -52,7 +52,6 @@ public class LedLuxLoader extends SupplierProductsLoader {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// TODO Auto-generated method stub
 		return retList;
 	}
 

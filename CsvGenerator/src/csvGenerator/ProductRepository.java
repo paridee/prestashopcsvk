@@ -47,11 +47,16 @@ public class ProductRepository {
 		return attributes;
 	}
 	
-	public List<String> getCsvWithAllFields(char separator,double priceTh){
+	public List<String> getCsvWithAllFields(char separator, double priceTh){
+		return getCsvWithAllFields(separator, priceTh, Integer.MAX_VALUE);
+	}
+	
+	public List<String> getCsvWithAllFields(char separator, double priceTh, int itemLimit){
 		ArrayList<String> csv			=	new ArrayList<String>();
 		List<String> attributes	=	this.attributesList();
 		Iterator<String> it	=	this.repository.keySet().iterator();
 		boolean printHeader	=	true;
+		int counter	=	0;
 		while(it.hasNext()){
 			String key	=	it.next();
 			Product p	=	this.repository.get(key);
@@ -69,7 +74,7 @@ public class ProductRepository {
 				csv.add(p.getCsvHeader(separator+"", attributes,3,3));
 				printHeader=false;
 			}
-			if(p.price>=priceTh){
+			if(p.price>=priceTh&&((counter++)<itemLimit)){
 				csv.add(p.getCsv(separator+"",attributes,3,3));	
 			}
 		}
