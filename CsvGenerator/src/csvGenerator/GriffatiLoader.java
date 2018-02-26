@@ -96,7 +96,8 @@ public class GriffatiLoader extends SupplierProductsLoader implements ProductWit
             //System.out.println("HEADER: "+inputLine);
             String[] header	=	inputLine.split(",");
             Product lastProduct = null;
-            while ((inputLine = in.readLine()) != null){
+            
+            while ((inputLine = in.readLine()) != null){            	
             	//System.out.println("LINE "+inputLine);
             	String[] splitted	=	inputLine.split(",");
             	int i=0;

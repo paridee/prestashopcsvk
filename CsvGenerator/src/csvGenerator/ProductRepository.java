@@ -74,7 +74,7 @@ public class ProductRepository {
 				csv.add(p.getCsvHeader(separator+"", attributes,3,3));
 				printHeader=false;
 			}
-			if(p.price>=priceTh&&((counter++)<itemLimit)){
+			if(p.price>=priceTh&&p.stock>0&&((counter++)<itemLimit)){
 				csv.add(p.getCsv(separator+"",attributes,3,3));	
 			}
 		}

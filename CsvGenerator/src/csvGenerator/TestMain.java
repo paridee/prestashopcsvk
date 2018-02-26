@@ -73,7 +73,7 @@ public class TestMain {
         pr.addAll(load.loadProducts());
         ProductRepository rep	=	new ProductRepository();
         rep.addProducts(pr);
-        List<String> csv	=	rep.getCsvWithAllFields('|',10,1000);
+        List<String> csv	=	rep.getCsvWithAllFields('|',50);
         int count	=	0;
         
         String mailMessage	=	"Report del giorno "+(new Date()).toString()+"\nCategorie sconosciute:\n";

@@ -29,7 +29,7 @@ public class BigBuyLoader extends SupplierProductsLoader {
 		this.images.add(22);
 		this.margin	=	0.2;
 		//this.images.add(23);
-		String categoryFile	=	"resources/BigBuy_Category_Mapping.settings";
+		String categoryFile =	"resources/BigBuy_Category_Mapping.settings";
 		
 		this.categoryMap	=	Utils.loadCategoriesFromFile(categoryFile);
 //		this.categoryMap.put("Regali Originali > Giocattoli e Giochi > Giochi Musicali","Articoli da Regalo#Giochi#Giochi musicali".split("#"));
