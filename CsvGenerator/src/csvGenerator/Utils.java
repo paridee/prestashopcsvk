@@ -33,6 +33,7 @@ public class Utils {
 	public static HashMap<String,String[]> loadCategoriesFromFile(String file){
 		HashMap<String,String[]>  categoryMap	=	new HashMap<String, String[]>();
 		System.out.println("Reading file "+file);
+		int counter	=	0;
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 			String sCurrentLine;
 			while ((sCurrentLine = br.readLine()) != null) {
@@ -43,8 +44,10 @@ public class Utils {
 					System.out.print(" -> "+s);
 				}
 				System.out.println("");
+				counter++;
 				categoryMap.put(splitted[0], splitted[1].split("#"));		
 			}
+			System.out.println("loaded "+counter+" categories");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

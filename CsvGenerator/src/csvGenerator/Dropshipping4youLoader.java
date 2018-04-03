@@ -26,6 +26,9 @@ public class Dropshipping4youLoader extends SupplierProductsLoader{
 		itemMap.put("refCode", 0);
 		this.images.add(5);
 		this.margin	=	0.2;
+		String categoryFile =	"resources/Dropshipping4you_Category_Mapping.settings";
+		
+		this.categoryMap	=	Utils.loadCategoriesFromFile(categoryFile);
 	}
 	
 	@Override

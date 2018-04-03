@@ -72,7 +72,7 @@ public class GSLoader extends SupplierProductsLoader {
 		this.categoryMap.put("VIDEO DIGITALE/FOTOCAMERE","Elettronica e HiFi#Fotocamere".split("#"));
 		this.categoryMap.put("VIDEO DIGITALE/BLURAY","Elettronica e HiFi#Blu Ray".split("#"));
 		this.categoryMap.put("CONSOLLE/PLAY STATION/PS4","Elettronica e HiFi#Consolle e giochi#PS4".split("#"));
-		
+		this.categoryMap.put("CONSOLLE","Elettronica e HiFi#Consolle e giochi".split("#"));
 	}
 	@Override
 	public List<Product> loadProducts() {
